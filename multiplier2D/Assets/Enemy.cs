@@ -46,10 +46,12 @@ public class Enemy : MonoBehaviour
             timeSinceLastMultiply = Time.time;
             groundLight.color = Color.cyan;
             groundLight.intensity = 1f;
+            hpText.color = Color.yellow;
         } else
         {
             groundLight.color = Color.red;
             groundLight.intensity = 2.5f;
+            hpText.color = Color.red;
         }
     }
 

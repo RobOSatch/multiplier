@@ -6,23 +6,63 @@ using UnityEngine.InputSystem;
 public class MovementScript : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
+    public float lerpSpeed = 10.0f;
 
     Vector3 _currentMoveVector;
     Quaternion _currentLookRotation;
     bool _isLooking = false;
+
+    public float dashCooldown = 2.0f;
+    private float timeSinceDash;
+    private bool dash = false;
+
+    private float dashSpeed;
+    private float currentSpeed;
+
+    public GameObject model;
+    private DashTrail dashTrail;
 
     // Start is called before the first frame update
     void Start()
     {
         _currentMoveVector = new Vector3(0.0f, 0.0f, 0.0f);
         _currentLookRotation = transform.rotation;
+
+        timeSinceDash = Time.time;
+        dashSpeed = speed * 2;
+        currentSpeed = speed;
+
+        dashTrail = model.GetComponent<DashTrail>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += _currentMoveVector * speed * Time.deltaTime;
-        transform.rotation = _currentLookRotation;
+        transform.position += _currentMoveVector * currentSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.Lerp(transform.rotation, _currentLookRotation, 0.99f * Time.deltaTime * lerpSpeed);
+
+        if (Time.time - timeSinceDash >= 0.15f)
+        {
+            currentSpeed = speed;
+            dash = false;
+            dashTrail.StopTrail();
+        }
+    }
+
+    void performDash()
+    {
+        dash = true;
+        currentSpeed *= 4;
+        dashTrail.StartTrail();
+    }
+
+    public void Dash(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered && Time.time - timeSinceDash >= dashCooldown)
+        {
+            timeSinceDash = Time.time;
+            performDash();
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
