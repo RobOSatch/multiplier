@@ -81,7 +81,7 @@ TextMesh:
   m_Text: '100
 
 '
-  m_OffsetZ: 0
+  m_OffsetZ: -6.24
   m_CharacterSize: 0.52
   m_LineSpacing: 1
   m_Anchor: 4
@@ -284,7 +284,7 @@ MonoBehaviour:
   hpText: {fileID: 71788052}
   health: 100
   reward: 10
-  speed: 2
+  speed: 1.5
   target: {fileID: 0}
   multiplyCooldown: 1
   groundLight: {fileID: 2113944298733985450}

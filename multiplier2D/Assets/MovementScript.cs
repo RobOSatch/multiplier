@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using EZCameraShake;
+using UnityEngine.Rendering.PostProcessing;
 
 public class MovementScript : MonoBehaviour
 {
@@ -22,6 +24,12 @@ public class MovementScript : MonoBehaviour
     public GameObject model;
     private DashTrail dashTrail;
 
+    public Camera mainCamera;
+    private PostProcessVolume volume;
+    private LensDistortion lensLayer;
+
+    private float currentDistortion = 15.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,11 +43,20 @@ public class MovementScript : MonoBehaviour
         dashTrail = model.GetComponent<DashTrail>();
     }
 
+    private void Awake()
+    {
+        volume = mainCamera.GetComponent<PostProcessVolume>();
+        volume.profile.TryGetSettings(out lensLayer);
+    }
+
     // Update is called once per frame
     void Update()
     {
         transform.position += _currentMoveVector * currentSpeed * Time.deltaTime;
         transform.rotation = Quaternion.Lerp(transform.rotation, _currentLookRotation, 0.99f * Time.deltaTime * lerpSpeed);
+
+        currentDistortion = Mathf.Lerp(currentDistortion, 15.0f, 0.99f * Time.deltaTime * 5.0f);
+        SetLensDistortion(currentDistortion);
 
         if (Time.time - timeSinceDash >= 0.15f)
         {
@@ -49,11 +66,38 @@ public class MovementScript : MonoBehaviour
         }
     }
 
+    void RumbleController()
+    {
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
+            StartCoroutine(StopRumble());
+        }
+    }
+
+    private IEnumerator StopRumble()
+    {
+        yield return new WaitForSeconds(0.05f);
+        Gamepad.current.PauseHaptics();
+    }
+
+    private void ShakeCamera()
+    {
+        CameraShaker.Instance.ShakeOnce(4f, 2f, 0.1f, 1.0f);
+    }
+
     void performDash()
     {
+        currentDistortion = 40.0f;
+
         dash = true;
         currentSpeed *= 4;
         dashTrail.StartTrail();
+    }
+
+    void SetLensDistortion(float distortion)
+    {
+        lensLayer.intensity.value = distortion;
     }
 
     public void Dash(InputAction.CallbackContext context)

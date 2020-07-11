@@ -134,11 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9224af27814064f4e8487a50034b9d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 30
   damage: 50
   rb: {fileID: 7775137058459620799}
   hitEffect: {fileID: 2749607811241322595, guid: 806f6683ca4cae74da4c8c55a178e1b5,
     type: 3}
+  lerpSpeed: 10
 --- !u!95 &-2469388530802568375
 Animator:
   serializedVersion: 3
