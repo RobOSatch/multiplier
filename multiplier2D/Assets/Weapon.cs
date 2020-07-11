@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour
 
     public Transform firePoint;
     public GameObject bulletPrefab;
+    public GameObject multiplierPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,14 @@ public class Weapon : MonoBehaviour
         if (context.action.triggered)
         {
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        }
+    }
+
+    public void FireMultiplier(InputAction.CallbackContext context)
+    {
+        if (context.action.triggered)
+        {
+            Instantiate(multiplierPrefab, firePoint.position, firePoint.rotation);
         }
     }
 }
