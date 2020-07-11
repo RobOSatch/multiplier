@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9089874178291827978}
   - component: {fileID: 7247027971877682704}
   - component: {fileID: -8921048726745636368}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Multiplier
   m_TagString: Untagged
   m_Icon: {fileID: 0}

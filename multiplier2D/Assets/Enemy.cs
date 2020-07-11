@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
-
+    public Money money;
+    public TextMesh hpText;
     public int health = 100;
+    public int reward = 10;
+    public float speed = 2.0f;
     public GameObject target;
     private bool shouldMultiply;
 
@@ -15,10 +19,12 @@ public class Enemy : MonoBehaviour
     private float timeSinceLastMultiply;
 
     public Light groundLight;
+    public Sprite markedSprite;
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+        hpText.text = health.ToString();
 
         if (health <= 0)
         {
@@ -59,6 +65,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        money.money += reward;
         Destroy(gameObject);
     }
 
@@ -69,10 +76,22 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle + 90f, Vector3.forward);
     }
 
+    void MoveToPlayer()
+    {
+        Vector3 dir = target.transform.position - transform.position;
+        transform.position += dir.normalized * speed * Time.deltaTime;
+    }
+
+    void CounterRotateText()
+    {
+        hpText.transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, 0f);
+        hpText.transform.rotation = Quaternion.Euler(0f, 0f, gameObject.transform.rotation.z * -1.0f);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
+        hpText.text = health.ToString();
     }
 
     private void Awake()
@@ -85,8 +104,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         LookAtPlayer();
+        MoveToPlayer();
 
-        Debug.Log(shouldMultiply);
+        CounterRotateText();
+
         if (shouldMultiply && (Time.time - timeSinceLastMultiply >= multiplyCooldown))
         {
             Multiply();
