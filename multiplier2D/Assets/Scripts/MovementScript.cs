@@ -88,6 +88,7 @@ public class MovementScript : MonoBehaviour
 
     void performDash()
     {
+        AudioManager.Instance.Play("DashSound");
         currentDistortion = 40.0f;
 
         dash = true;

@@ -11,6 +11,7 @@ public class Multiplier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.Instance.Play("MultiplyShot");
         rb.velocity = Quaternion.AngleAxis(90f, new Vector3(0.0f, 0.0f, 1f)) * transform.right * speed;
     }
 

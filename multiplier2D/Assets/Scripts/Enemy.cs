@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
-    public Money money;
     public TextMesh hpText;
     public int health = 100;
     public int reward = 10;
@@ -23,6 +22,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        AudioManager.Instance.Play("EnemyHit");
+
         health -= damage;
         hpText.text = health.ToString();
 
@@ -39,7 +40,11 @@ public class Enemy : MonoBehaviour
 
     public void MarkForMultiplication(bool marked)
     {
+        bool was = shouldMultiply;
         shouldMultiply = marked;
+        if (shouldMultiply != was) {
+            AudioManager.Instance.Play("Multiply");
+        }
 
         if (marked)
         {
@@ -57,6 +62,8 @@ public class Enemy : MonoBehaviour
 
     public void Multiply()
     {
+        AudioManager.Instance.Play("Multiply");
+
         timeSinceLastMultiply = Time.time;
         GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
 
@@ -67,7 +74,9 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        money.money += reward;
+        GameManager.Instance.score += 100;
+        //money.money += reward;
+        GameManager.Instance.money += reward;
         Destroy(gameObject);
     }
 

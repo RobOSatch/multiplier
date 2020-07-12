@@ -17,6 +17,8 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.Instance.Play("Shot");
+
         targetRotation = Quaternion.AngleAxis(90f, new Vector3(0.0f, 0.0f, 1f)) * transform.right;
         rb.velocity =  targetRotation * currentSpeed;
     }

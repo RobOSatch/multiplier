@@ -188,7 +188,7 @@ MonoBehaviour:
   lerpSpeed: 10
   dashCooldown: 2
   model: {fileID: 8985087561165187818}
-  volume: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!114 &8986094379739569660
 MonoBehaviour:
   m_ObjectHideFlags: 0
