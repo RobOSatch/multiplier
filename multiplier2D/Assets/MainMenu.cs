@@ -13,7 +13,13 @@ public class MainMenu : MonoBehaviour
         {
             GameManager.Instance.LoadGame();
             AudioManager.Instance.Stop("MenuTheme");
-            AudioManager.Instance.Play("MainTheme");
+
+            if (!GameManager.Instance.gameInProgress)
+            {
+                AudioManager.Instance.Play("MainTheme");
+            }
+
+            GameManager.Instance.gameInProgress = true;
         }
     }
 }

@@ -9,7 +9,7 @@ public enum PowerUp
     RAPIDFIRE = 0,
     HEALTHBOOST = 1,
     SHIELD = 2,
-    DAMAGE = 3
+    SHOTGUN = 3
 }
 
 public class GameManager : MonoBehaviour
@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
     public int[] activePowerUps;
 
     public int startMoney = 1000;
+
+    public int numberOfLevels = 4;
+
+    public bool gameInProgress = false;
 
     public void ResetGame()
     {
@@ -80,7 +84,7 @@ public class GameManager : MonoBehaviour
 
         currentScene++;
 
-        if (currentScene == 4)
+        if (currentScene == numberOfLevels + 1)
         {
             LoadEndScreen();
             return;
@@ -92,7 +96,14 @@ public class GameManager : MonoBehaviour
     public void LoadShop()
     {
         Gamepad.current.PauseHaptics();
-        SceneManager.LoadScene("Shop");
+        
+        if (currentScene == numberOfLevels)
+        {
+            LoadEndScreen();
+        } else
+        {
+            SceneManager.LoadScene("Shop");
+        }
     }
 
     public void LoadEndScreen()

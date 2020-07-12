@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public int health = 100;
     public int reward = 10;
     public float speed = 2.0f;
-    public GameObject target;
+    private GameObject target;
     private bool shouldMultiply;
 
     public float multiplyCooldown = 0.5f;
@@ -19,6 +19,10 @@ public class Enemy : MonoBehaviour
 
     public Light groundLight;
     public Sprite markedSprite;
+
+    public int multiplyAmount = 1;
+    public bool exponential = false;
+    public bool autoMultiply = false;
 
     public void TakeDamage(int damage)
     {
@@ -68,13 +72,13 @@ public class Enemy : MonoBehaviour
         GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
 
         Enemy enemy = clone.GetComponent<Enemy>();
-        enemy.MarkForMultiplication(false);
+        enemy.MarkForMultiplication(exponential);
         //enemy.SetMultiplyCooldown(multiplyCooldown * 2);
     }
 
     void Die()
     {
-        GameManager.Instance.score += 100;
+        GameManager.Instance.score += reward;
         //money.money += reward;
         GameManager.Instance.money += reward;
         Destroy(gameObject);
@@ -103,12 +107,27 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         hpText.text = health.ToString();
+
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player");
+        }
     }
 
     private void Awake()
     {
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player");
+        }
+
         timeSinceLastMultiply = 0f;
         shouldMultiply = false;
+
+        if (autoMultiply)
+        {
+            MarkForMultiplication(true);
+        }
     }
 
     // Update is called once per frame
@@ -121,7 +140,10 @@ public class Enemy : MonoBehaviour
 
         if (shouldMultiply && (Time.time - timeSinceLastMultiply >= multiplyCooldown))
         {
-            Multiply();
+            for (int i = 0; i < multiplyAmount; ++i)
+            {
+                Multiply();
+            }
         }
     }
 }

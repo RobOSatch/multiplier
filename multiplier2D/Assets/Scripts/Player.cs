@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public int hp;
     public int shield;
     public GameObject deathEffect;
+    public float damageCooldown = 0.5f;
+    private float timeSinceDamage = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +29,11 @@ public class Player : MonoBehaviour
         {
             int powerup = GameManager.Instance.activePowerUps[i];
             if (powerup == 0) continue;
-            
+            Weapon weapon = GetComponent<Weapon>();
+
             switch (i)
-            {
+            { 
                 case (int) PowerUp.RAPIDFIRE:
-                    Weapon weapon = GetComponent<Weapon>();
                     weapon.shootCooldown = 0.07f;
                     break;
                 case (int) PowerUp.HEALTHBOOST:
@@ -41,6 +43,9 @@ public class Player : MonoBehaviour
                 case (int) PowerUp.SHIELD:
                     GameManager.Instance.shield += 50;
                     GameManager.Instance.activePowerUps[i] -= 1;
+                    break;
+                case (int)PowerUp.SHOTGUN:
+                    weapon.shotgun = true;
                     break;
                 default:
                     break;
@@ -70,6 +75,13 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (Time.time - timeSinceDamage < damageCooldown)
+        {
+            return;
+        }
+
+        timeSinceDamage = Time.time;
+
         AudioManager.Instance.Play("PlayerHit");
         ShakeCamera();
         RumbleController();

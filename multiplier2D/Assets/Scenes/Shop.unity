@@ -935,7 +935,7 @@ MonoBehaviour:
   powerups:
   - icon: {fileID: 21300000, guid: bbc46688ef0294355a37b63054c28418, type: 3}
     name: RapidFire
-    price: 500
+    price: 1000
     index: 0
   - icon: {fileID: 21300000, guid: e09a7c16c706a4ca490d7561b90ff47d, type: 3}
     name: 100 HP
@@ -945,6 +945,10 @@ MonoBehaviour:
     name: 50 Shield
     price: 100
     index: 2
+  - icon: {fileID: 21300000, guid: b9391d473e0bc435d832844297cc3d12, type: 3}
+    name: Shotgun
+    price: 500
+    index: 3
 --- !u!4 &948480135
 Transform:
   m_ObjectHideFlags: 0

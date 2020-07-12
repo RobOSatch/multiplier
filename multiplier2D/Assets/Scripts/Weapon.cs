@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
     private float timeSinceLastShot;
     private bool shooting = false;
     private bool multiplying = false;
+    public bool shotgun = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,15 @@ public class Weapon : MonoBehaviour
         {
             timeSinceLastShot = Time.time;
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+            if (shotgun)
+            {
+                Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(12.5f, firePoint.transform.forward) * firePoint.rotation);
+                Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(-12.5f, firePoint.transform.forward) * firePoint.rotation);
+
+                Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(25.0f, firePoint.transform.forward) * firePoint.rotation);
+                Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(-25.0f, firePoint.transform.forward) * firePoint.rotation);
+            }
         } else if (multiplying && Time.time - timeSinceLastShot >= shootCooldown)
         {
             timeSinceLastShot = Time.time;

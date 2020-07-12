@@ -37,6 +37,16 @@ public class ShopManager : MonoBehaviour
             int money = GameManager.Instance.money;
             PowerUpItem purchase = powerups[currentItem];
 
+            if (currentItem == (int) PowerUp.RAPIDFIRE ||
+                currentItem == (int) PowerUp.SHOTGUN)
+            {
+                if (GameManager.Instance.activePowerUps[currentItem] > 0)
+                {
+                    AudioManager.Instance.Play("MenuFail");
+                    return;
+                }
+            }
+
             if (money < purchase.price)
             {
                 AudioManager.Instance.Play("MenuFail");
@@ -82,7 +92,6 @@ public class ShopManager : MonoBehaviour
         if (context.action.triggered)
         {
             context.action.Disable();
-            Debug.Log("NEXT");
             GameManager.Instance.LoadNextLevel();
         }
     }
