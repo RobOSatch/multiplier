@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Purchasing;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -100,7 +97,7 @@ public class ShopManager : MonoBehaviour
     {
         PowerUpItem current = powerups[currentItem];
         itemIcon.sprite = current.icon;
-        itemName.text = current.name;
+        itemName.text = "[ " + current.name + " ]";
         itemPrice.text = current.price.ToString();
     }
 

@@ -22,7 +22,10 @@ public class GameManager : MonoBehaviour
     public int money = 0;
     public int health = 500;
     public int shield = 0;
+
+    [HideInInspector]
     public int currShield = 0;
+    
     public int score = 0;
 
     public int[] activePowerUps;
@@ -70,17 +73,34 @@ public class GameManager : MonoBehaviour
         activePowerUps = new int[4];
     }
 
+    bool triggered = false;
+
     public void LoadGame()
     {
-        SceneManager.LoadScene("Level1");
-        currentScene = 1;
+        if (!triggered)
+        {
+            //GameManager.Instance.LoadNextLevel();
+            AudioManager.Instance.Stop("MenuTheme");
 
-        ResetGame();
+            if (!GameManager.Instance.gameInProgress)
+            {
+                AudioManager.Instance.Play("MainTheme");
+            }
+
+            GameManager.Instance.gameInProgress = true;
+
+            SceneManager.LoadScene("Level1");
+            currentScene = 1;
+
+            ResetGame();
+
+            triggered = true;
+        }
     }
 
     public void LoadNextLevel()
     {
-        currShield = shield;
+        triggered = false;
 
         currentScene++;
 
@@ -95,8 +115,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadShop()
     {
-        Gamepad.current.PauseHaptics();
-        
+        if (Gamepad.current != null) Gamepad.current.PauseHaptics();
+
         if (currentScene == numberOfLevels)
         {
             LoadEndScreen();
@@ -108,7 +128,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadEndScreen()
     {
-        Gamepad.current.PauseHaptics();
+        if (Gamepad.current != null) Gamepad.current.PauseHaptics();
         SceneManager.LoadScene("EndScreen");
     }
 
@@ -119,7 +139,7 @@ public class GameManager : MonoBehaviour
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             if (enemies.Length == 0)
             {
-                Gamepad.current.PauseHaptics();
+                if (Gamepad.current != null) Gamepad.current.PauseHaptics();
                 LoadShop();
             }
         }

@@ -52,11 +52,33 @@
                 },
                 {
                     "name": "",
+                    "id": "e5b28b62-813a-4c1c-9abb-8dd1016bed01",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "40878b54-d55d-41dc-b9bd-be69c9b6ddc2",
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "827198d8-1517-4390-9afd-cf82f537b6fe",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Right",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -74,11 +96,33 @@
                 },
                 {
                     "name": "",
+                    "id": "35ab781d-9f3d-4e34-9f3a-0602cc4ca5f3",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Buy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9c9f25a8-fe59-40ef-89e9-d100d8ba3078",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Dismiss",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1af5b0f1-f17e-40db-81e6-5f6843fff7d7",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Dismiss",
                     "isComposite": false,
                     "isPartOfComposite": false

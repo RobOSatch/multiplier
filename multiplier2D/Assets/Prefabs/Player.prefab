@@ -414,9 +414,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 500
-  shield: 0
   deathEffect: {fileID: 2749607811241322595, guid: 806f6683ca4cae74da4c8c55a178e1b5,
     type: 3}
+  damageCooldown: 0.5
 --- !u!1001 &8986094378221780738
 PrefabInstance:
   m_ObjectHideFlags: 0

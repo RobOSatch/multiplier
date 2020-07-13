@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using EZCameraShake;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UIElements;
 
 public class MovementScript : MonoBehaviour
 {
@@ -135,6 +136,30 @@ public class MovementScript : MonoBehaviour
         }
 
         _currentLookRotation = GetLookQuaternion(input);
+
+        if (Gamepad.current == null)
+        {
+            //Get the Screen positions of the object
+            Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
+
+            //Get the Screen position of the mouse
+            Vector2 mouseOnScreen = Camera.main.ScreenToViewportPoint(Mouse.current.position.ReadValue());
+
+            _currentLookRotation = GetLookQuaternion(mouseOnScreen - positionOnScreen);
+        } else if (Gamepad.current.rightStick.ReadValue().x == 0 &&
+            Gamepad.current.rightStick.ReadValue().y == 0)
+        {
+            //Get the Screen positions of the object
+            Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
+
+            //Get the Screen position of the mouse
+            Vector2 mouseOnScreen = Camera.main.ScreenToViewportPoint(Mouse.current.position.ReadValue());
+
+            _currentLookRotation = GetLookQuaternion(mouseOnScreen - positionOnScreen);
+        }
+
+        //Quaternion.Euler(new Vector3(0f, 0f, angle));
+
         //Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0.0f, input.y), Vector3.back);
         //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime);
     }

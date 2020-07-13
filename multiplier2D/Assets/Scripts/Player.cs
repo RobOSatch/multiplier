@@ -9,15 +9,20 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-
     public int hp;
-    public int shield;
     public GameObject deathEffect;
     public float damageCooldown = 0.5f;
     private float timeSinceDamage = 0.0f;
 
+    private bool takenDamage = false;
+
     // Start is called before the first frame update
     void Start()
+    {
+        
+    }
+
+    private void Awake()
     {
     }
 
@@ -51,6 +56,11 @@ public class Player : MonoBehaviour
                     break;
             }
         }
+
+        if (!takenDamage)
+        {
+            GameManager.Instance.currShield = GameManager.Instance.shield;
+        }
     }
 
     void RumbleController()
@@ -75,6 +85,8 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        takenDamage = true;
+
         if (Time.time - timeSinceDamage < damageCooldown)
         {
             return;
@@ -86,15 +98,15 @@ public class Player : MonoBehaviour
         ShakeCamera();
         RumbleController();
 
-        int passedDamage = Math.Max(0, damage - GameManager.Instance.shield);
-        GameManager.Instance.shield = Math.Max(0, GameManager.Instance.shield - damage);
+        int passedDamage = Math.Max(0, damage - GameManager.Instance.currShield);
+        GameManager.Instance.currShield = Math.Max(0, GameManager.Instance.currShield - damage);
         
         hp = Math.Max(0, hp - passedDamage);
         GameManager.Instance.health = hp;
-
+        
         if (hp <= 0)
         {
-            Gamepad.current.PauseHaptics();
+            if (Gamepad.current != null) Gamepad.current.PauseHaptics();
             Instantiate(deathEffect, transform.position, transform.rotation);
             GameManager.Instance.LoadEndScreen();
             Destroy(gameObject);
